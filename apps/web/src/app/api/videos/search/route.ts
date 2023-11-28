@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: parsed.error }, { status: 400 });
   }
 
-  const channel = await youtubeApi.videos.search(parsed.data);
+  const videos = await youtubeApi.videos.search(parsed.data);
 
-  return NextResponse.json(channel);
+  return NextResponse.json(videos);
 }
