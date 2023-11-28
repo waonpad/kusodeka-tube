@@ -3,9 +3,5 @@ type AppProviderProps = {
 };
 
 export default function AppProvider({ children }: AppProviderProps) {
-  return (
-    <>
-      {children}
-    </>
-  );
+  return <>{children}</>;
 }
