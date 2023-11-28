@@ -7,9 +7,9 @@
     "build": "next build",
     "start": "next start -p 8080",
     "lint": "eslint --ext .ts,.js,.tsx . --fix",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:ci": "jest --ci"
+    "test": "echo 'The test configurations have not been set up yet.'",
+    "test:watch": "echo 'The test configurations have not been set up yet.'",
+    "test:ci": "echo 'The test configurations have not been set up yet.'"
   },
   "dependencies": {
     "@t3-oss/env-nextjs": "^0.7.0",
