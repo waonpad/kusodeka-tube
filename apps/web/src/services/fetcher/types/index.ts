@@ -1,6 +1,6 @@
 export type HttpResponse<T> = {
   data: T | null;
-  err: Err | null;
+  error: Err | null;
   status: number;
 };
 
@@ -18,6 +18,6 @@ export type Err = {
 
 export type ErrResponse = {
   data: null;
-  err: Err;
+  error: Err;
   status: number;
 };
