@@ -5,9 +5,9 @@ import { HttpResponse } from './types';
 export const fetcher = <T>(input: RequestInfo, init?: RequestInit) => {
   return fetch(input, init)
     .then(transformResponse<T>())
-    .catch((err) => {
-      console.log('fetcher: err', err);
-      throw err;
+    .catch((error) => {
+      console.log('fetcher: error', error);
+      throw error;
     });
 };
 
@@ -18,14 +18,14 @@ export const transformResponse = <T>() => {
 
       if (res.status === 422) {
         const json: {
-          err: ZodError;
+          error: ZodError;
         } = await res.json(); // ZodErrorで一時的に型を固定
 
         const response: HttpResponse<T> = {
           data: null,
-          err: {
+          error: {
             ...errors['VALIDATION'],
-            errors: json.err.issues.map((issue) => ({
+            errors: json.error.issues.map((issue) => ({
               code: issue.code,
               name: `${issue.path[0]}`,
               message: issue.message,
@@ -50,7 +50,7 @@ export const transformResponse = <T>() => {
 
     return {
       data: json,
-      err: null,
+      error: null,
       status: res.status,
     };
   };
