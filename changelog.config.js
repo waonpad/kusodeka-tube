@@ -19,8 +19,7 @@ module.exports = {
   ],
   maxMessageLength: 64,
   minMessageLength: 3,
-  questions: ['type', 'scope', 'subject'],
-  scopes: ['none', 'api', 'web', 'design', 'env', 'config', 'types'],
+  questions: ['type', 'subject'],
   types: {
     chore: {
       description: 'ビルド関連や補助ツールの変更',
@@ -80,7 +79,6 @@ module.exports = {
   },
   messages: {
     type: 'コミットする内容はどの型ですか:',
-    scope: 'コミットが影響するスコープを選んでください:',
     subject: '変更内容を簡潔に書いてください:\n',
   },
 };
