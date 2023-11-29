@@ -7,7 +7,6 @@ export const scalingChannel = <T extends Partial<YoutubeChannel>>(channel: T, sc
     ...(channel.snippet && {
       snippet: {
         ...channel.snippet,
-        // TODO: publishedAtはISO 8601 date formatになっているので、別で処理が必要そう
         publishedAt: scalingNumeralsInText(channel.snippet.publishedAt, scale),
         title: scalingNumeralsInText(channel.snippet.title, scale),
         description: scalingNumeralsInText(channel.snippet.description, scale),
