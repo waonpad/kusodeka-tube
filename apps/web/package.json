@@ -12,6 +12,7 @@
     "test:ci": "echo 'The test configurations have not been set up yet.'"
   },
   "dependencies": {
+    "@geolonia/japanese-numeral": "^1.0.2",
     "@t3-oss/env-nextjs": "^0.7.0",
     "next": "13.4.9",
     "postcss": "8.4.25",
