@@ -1,10 +1,10 @@
 export type HttpResponse<T> = {
   data: T | null;
-  error: Err | null;
+  error: Error | null;
   status: number;
 };
 
-export type Err = {
+export type Error = {
   code?: string;
   name?: string;
   message: string;
@@ -16,8 +16,8 @@ export type Err = {
   }[];
 };
 
-export type ErrResponse = {
+export type ErrorResponse = {
   data: null;
-  error: Err;
+  error: Error;
   status: number;
 };
