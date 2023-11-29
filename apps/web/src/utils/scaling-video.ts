@@ -1,4 +1,5 @@
 import { YoutubeVideo } from '@/lib/youtube-ts';
+import { isoToSeconds, secondsToIso } from './format/dayjs';
 import { scalingNumeralsInText } from './scaling-numerals-in-text';
 
 export const scalingVideo = <T extends Partial<YoutubeVideo>>(video: T, scale: number): T => {
@@ -16,7 +17,7 @@ export const scalingVideo = <T extends Partial<YoutubeVideo>>(video: T, scale: n
     ...(video.contentDetails && {
       contentDetails: {
         ...video.contentDetails,
-        // TODO: durationはISO 8601 duration formatになっているので、別で処理が必要そう
+        duration: secondsToIso(isoToSeconds(video.contentDetails.duration) * scale),
       },
     }),
     ...(video.statistics && {
