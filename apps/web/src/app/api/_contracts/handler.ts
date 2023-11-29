@@ -76,7 +76,8 @@ export const cHandler = <T extends ApiContract>(
         return NextResponse.json({ error: parsedResponse.error }, { status: 500 });
       }
     }
-
+    
+    // TOSO: パースした結果を返す
     return response;
   };
 };
