@@ -1,3 +1,5 @@
+import { toHalfnums } from './format/to-half';
+
 const normalRegex = /^(\D+)?(\d+)?(.*)$/;
 const decimalRegex = /^(\D+)?(\d*\.?\d+)?(.*)$/;
 
@@ -13,7 +15,7 @@ export const splitTextAndNumbers = (
 ): (string | number)[] => {
   const arr = [] as (string | number)[];
   const num_re = decimals ? decimalRegex : normalRegex;
-  let s = str;
+  let s = toHalfnums(str);
   while (s) {
     const match = s.match(num_re);
     if (!match) {
