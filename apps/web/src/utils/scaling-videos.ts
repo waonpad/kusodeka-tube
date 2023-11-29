@@ -7,8 +7,8 @@ export const scalingVideos = <T extends Partial<YoutubeVideoSearch>>(
 ): T => {
   return {
     ...videos,
-    ...(videos.items &&
-      videos.items.map((video) => ({
+    ...(videos.items && {
+      items: videos.items.map((video) => ({
         ...video,
         snippet: {
           ...video.snippet,
@@ -17,6 +17,7 @@ export const scalingVideos = <T extends Partial<YoutubeVideoSearch>>(
           description: scalingNumeralsInText(video.snippet.description, scale),
           channelTitle: scalingNumeralsInText(video.snippet.channelTitle, scale),
         },
-      }))),
+      })),
+    }),
   } satisfies typeof videos;
 };
