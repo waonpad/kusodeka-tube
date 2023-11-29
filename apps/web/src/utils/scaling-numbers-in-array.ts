@@ -1,3 +1,6 @@
+/**
+ * 多分使わない
+ */
 export const scalingNumbersInArray = (
   arr: (string | number)[],
   scale: number
