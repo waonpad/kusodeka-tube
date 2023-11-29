@@ -1,35 +1,17 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { z } from 'zod';
+import { NextResponse } from 'next/server';
 import { youtubeApi } from '@/lib/youtube-ts';
-import { reqSearchParams } from '@/utils/req-search-params';
 import { scalingVideos } from '@/utils/scaling-videos';
+import { cHandler } from '../../_contracts/handler';
+import { searchVideosContract } from '../../_contracts/routes/videos/search';
 
-/**
- * @see https://github.com/Tenpi/youtube.ts/blob/master/types/SearchTypes.ts#L3
- * @description
- * This schema ensures only the necessary elements from the above link types \
- * If you edit this schema, please make sure to meet the above link types
- */
-export const SearchVideoSchema = z.object({
-  q: z.string().optional(),
-  maxResults: z.number().max(50).default(10),
-  pageToken: z.string().optional(),
-});
+export const GET = cHandler(searchVideosContract, async (req, { query }) => {
+  const videos = await youtubeApi.videos.search(query!);
 
-const scale: number = 50;
-
-export async function GET(req: NextRequest) {
-  const parsed = SearchVideoSchema.safeParse(reqSearchParams(req));
-
-  if (!parsed.success) {
-    return NextResponse.json({ error: parsed.error }, { status: 400 });
-  }
-
-  const videos = await youtubeApi.videos.search(parsed.data);
-
-  const scaledVideos = scalingVideos(videos, scale);
+  const scaledVideos = scalingVideos(videos, query!.scale);
 
   console.log(scaledVideos);
 
-  return NextResponse.json(scaledVideos);
-}
+  return NextResponse.json({
+    videos: scaledVideos,
+  });
+});

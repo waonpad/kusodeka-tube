@@ -1,27 +1,17 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { z } from 'zod';
+import { NextResponse } from 'next/server';
 import { youtubeApi } from '@/lib/youtube-ts';
-import { reqSearchParams } from '@/utils/req-search-params';
 import { scalingChannel } from '@/utils/scaling-channel';
+import { cHandler } from '../_contracts/handler';
+import { getChannelByURLContract } from '../_contracts/routes/channels';
 
-export const GetChannelByURLSchema = z.object({
-  url: z.string().startsWith('https://www.youtube.com/'),
-});
+export const GET = cHandler(getChannelByURLContract, async (req, { query }) => {
+  const channel = await youtubeApi.channels.get(query!.url);
 
-const scale: number = 50;
-
-export async function GET(req: NextRequest) {
-  const parsed = GetChannelByURLSchema.safeParse(reqSearchParams(req));
-
-  if (!parsed.success) {
-    return NextResponse.json({ error: parsed.error }, { status: 400 });
-  }
-
-  const channel = await youtubeApi.channels.get(parsed.data.url);
-
-  const scaledChannel = scalingChannel(channel, scale);
+  const scaledChannel = scalingChannel(channel, query!.scale);
 
   console.log(scaledChannel);
 
-  return NextResponse.json(scaledChannel);
-}
+  return NextResponse.json({
+    channel: scaledChannel,
+  });
+});
