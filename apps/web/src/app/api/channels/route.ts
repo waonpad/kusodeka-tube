@@ -23,5 +23,5 @@ export async function GET(req: NextRequest) {
 
   console.log(scaledChannel);
 
-  return NextResponse.json(channel);
+  return NextResponse.json(scaledChannel);
 }
