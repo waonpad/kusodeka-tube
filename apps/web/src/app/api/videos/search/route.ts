@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { youtubeApi } from '@/lib/youtube-ts';
 import { reqSearchParams } from '@/utils/req-search-params';
+import { scalingVideos } from '@/utils/scaling-videos';
 
 /**
  * @see https://github.com/Tenpi/youtube.ts/blob/master/types/SearchTypes.ts#L3
@@ -15,6 +16,8 @@ export const SearchVideoSchema = z.object({
   pageToken: z.string().optional(),
 });
 
+const scale: number = 50;
+
 export async function GET(req: NextRequest) {
   const parsed = SearchVideoSchema.safeParse(reqSearchParams(req));
 
@@ -24,5 +27,9 @@ export async function GET(req: NextRequest) {
 
   const videos = await youtubeApi.videos.search(parsed.data);
 
-  return NextResponse.json(videos);
+  const scaledVideos = scalingVideos(videos, scale);
+
+  console.log(scaledVideos);
+
+  return NextResponse.json(scaledVideos);
 }
