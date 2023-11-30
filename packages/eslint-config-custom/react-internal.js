@@ -37,6 +37,13 @@ module.exports = {
     '.eslintrc.js',
     '**/turbo/generators/config.ts',
     'lint-staged.config.js',
+    '.prettierrc.js',
+    '.eslintrc.js',
+    'tailwind.config.js',
+    'next.config.js',
+    'postcss.config.js',
+    'jest.config.js',
+    '**/*.mjs',
   ],
 
   rules: {

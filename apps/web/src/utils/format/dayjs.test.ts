@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-loss-of-precision */
 import { isoToSeconds, secondsToIso } from './dayjs';
 
 describe('isoToSeconds', () => {
@@ -8,13 +9,13 @@ describe('isoToSeconds', () => {
   });
 
   it('ISO 8601形式でない文字列を渡すとNaNを返す', () => {
-    expect(isoToSeconds('')).toBe(NaN);
-    expect(isoToSeconds('test')).toBe(NaN);
+    expect(isoToSeconds('')).toBeNaN();
+    expect(isoToSeconds('test')).toBeNaN();
   });
 
   it('指数表記の含まれるISO 8601形式の期間を渡すとNaNを返す', () => {
-    expect(isoToSeconds('P3.914789098564995e+21Y1M1DT19H47M45.024S')).toBe(NaN);
-    expect(isoToSeconds('-P3.914789098564995e+21Y1M1DT19H47M45.024S')).toBe(NaN);
+    expect(isoToSeconds('P3.914789098564995e+21Y1M1DT19H47M45.024S')).toBeNaN();
+    expect(isoToSeconds('-P3.914789098564995e+21Y1M1DT19H47M45.024S')).toBeNaN();
   });
 });
 

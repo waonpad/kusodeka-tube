@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['custom/react'],
+  extends: ['custom/react-internal'],
   settings: {
     tailwindcss: {
       config: './tailwind.config.js',

@@ -4,9 +4,10 @@ module.exports = {
     'next',
     'turbo',
     'plugin:tailwindcss/recommended',
+    'plugin:vitest/recommended',
     'prettier',
   ],
-  plugins: ['unused-imports'],
+  plugins: ['unused-imports', 'vitest'],
   settings: {
     next: {
       rootDir: ['apps/*/', 'packages/*/'],
@@ -30,11 +31,6 @@ module.exports = {
     'postcss.config.js',
     'jest.config.js',
     'lint-staged.config.js',
-    // 怒られたのでテストファイルは無視する
-    '**/*.test.ts',
-    '**/*.test.tsx',
-    '**/*.spec.ts',
-    '**/*.spec.tsx',
     '**/*.mjs',
   ],
   rules: {
@@ -63,59 +59,6 @@ module.exports = {
         },
       },
     ],
+    'vitest/consistent-test-it': ['error', { fn: 'it' }],
   },
 };
-
-// よくわからなかったものたち↓
-
-// const { resolve } = require("node:path");
-
-// const project = resolve(process.cwd(), "tsconfig.json");
-
-// /*
-//  * This is a custom ESLint configuration for use with
-//  * Next.js apps.
-//  *
-//  * This config extends the Vercel Engineering Style Guide.
-//  * For more information, see https://github.com/vercel/style-guide
-//  *
-//  */
-
-// // module.exports = {
-// //   extends: [
-// //     "@vercel/style-guide/eslint/node",
-// //     "@vercel/style-guide/eslint/browser",
-// //     "@vercel/style-guide/eslint/typescript",
-// //     "@vercel/style-guide/eslint/react",
-// //     "@vercel/style-guide/eslint/next",
-// //     "eslint-config-turbo",
-// //     "eslint-config-next/core-web-vitals",
-// //   ].map(require.resolve),
-// //   parserOptions: {
-// //     project,
-// //   },
-// //   globals: {
-// //     React: true,
-// //     JSX: true,
-// //   },
-// //   settings: {
-// //     "import/resolver": {
-// //       typescript: {
-// //         project,
-// //       },
-// //     },
-// //   },
-// //   ignorePatterns: ["node_modules/", "dist/"],
-// //   // add rules configurations here
-// //   rules: {
-// //     "import/no-default-export": "off",
-// //   },
-// // };
-
-// module.exports = {
-//   extends: "next/core-web-vitals",
-//   // add rules configurations here
-//   rules: {
-//     "import/no-default-export": "off",
-//   },
-// };

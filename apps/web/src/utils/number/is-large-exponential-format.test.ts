@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-loss-of-precision */
 import { isLargeExponentialFormat } from './is-large-exponential-format';
 
 describe('isLargeExponentialFormat', () => {
