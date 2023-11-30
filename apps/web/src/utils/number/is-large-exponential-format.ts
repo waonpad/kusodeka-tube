@@ -1,5 +1,7 @@
 export const isLargeExponentialFormat = (number: number | string): boolean => {
-  const numStr = String(number);
+  const num = Number(number);
+
+  const numStr = num.toString();
 
   const regex = /^[+-]?\d+(\.\d*)?([eE][+]\d+)$/;
   return regex.test(numStr);
