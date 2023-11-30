@@ -21,12 +21,19 @@ export const sacalingNumeralsInArray = (textAndNumbers: (string | number)[], sca
       if (isSmallExponentialFormat(scaled.toString())) return KUSODEKA.XS;
 
       if (scaled.mod(1).equals(0)) {
-        return number2kanji(scaled.toNumber());
+        const kanji = number2kanji(scaled.toNumber());
+
+        if (kanji.includes('undefined')) return KUSODEKA.XL;
+
+        return kanji;
       }
 
+      // ここ、文字列から数値にしているからDecimalの精度が失われている?
       const [upper, lower] = scaled.toString().split('.');
 
       const upperKanji = number2kanji(Number(upper));
+
+      if (upperKanji.includes('undefined')) return KUSODEKA.XL;
 
       const lowerKanji = lower
         .split('')

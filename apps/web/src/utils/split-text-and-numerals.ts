@@ -2,14 +2,17 @@ import { findKanjiNumbers } from '@/lib/japanese-numeral';
 import { splitTextAndNumbers } from './split-text-and-numbers';
 
 export const splitTextAndNumerals = (text: string) => {
-  const findedKnajiNumbers = findKanjiNumbers(text);
+  // 改行コードを一時的に別の文字列に置き換える
+  const replacedText = text.replace(/\n/g, ' NEWLINE ');
+
+  const findedKnajiNumbers = findKanjiNumbers(replacedText);
+
   const sortedFindedKnajiNumbers = findedKnajiNumbers.sort((a, b) => b.length - a.length);
 
-  // sortedFindedKnajiNumbersが空の場合は、textをそのまま返さないと一文字ずつ分割されてしまう
   const splitByKanjiNumbers =
     sortedFindedKnajiNumbers.length > 0
-      ? text.split(new RegExp(`(${sortedFindedKnajiNumbers.join('|')})`))
-      : [text];
+      ? replacedText.split(new RegExp(`(${sortedFindedKnajiNumbers.join('|')})`))
+      : [replacedText];
 
   const splitByArabicNumbers = splitByKanjiNumbers
     .map((text) => {
@@ -20,5 +23,13 @@ export const splitTextAndNumerals = (text: string) => {
     })
     .flat();
 
-  return splitByArabicNumbers;
+  // 置き換えた改行コードを元に戻す
+  const result = splitByArabicNumbers.map((item) => {
+    if (typeof item === 'string') {
+      return item.replace(/ NEWLINE /g, '\n');
+    }
+    return item;
+  });
+
+  return result;
 };
