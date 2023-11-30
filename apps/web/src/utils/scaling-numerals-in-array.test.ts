@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-loss-of-precision */
 import { KUSODEKA } from '@/constants/kusodeka';
 import { sacalingNumeralsInArray } from './scaling-numerals-in-array';
 
