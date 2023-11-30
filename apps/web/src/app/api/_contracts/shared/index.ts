@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const KusodekaQuerySchema = z.object({
-  scale: z.coerce.number(),
+  scale: z.coerce.number().min(Number.MIN_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER),
 });
 
 export const KusodekaResponseSchema = z.object({
