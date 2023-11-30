@@ -11,7 +11,10 @@ export const GET = cHandler(searchVideosContract, async (req, { query }) => {
 
   console.log(scaledVideos);
 
+  const { items, ...meta } = scaledVideos;
+
   return NextResponse.json({
-    videos: scaledVideos,
+    meta,
+    videos: items,
   });
 });
