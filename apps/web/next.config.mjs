@@ -16,6 +16,9 @@ const nextConfig = {
   typescript: {
     tsconfigPath: './tsconfig.build.json',
   },
+  experimental: {
+    typedRoutes: true,
+  },
 };
 
 export default nextConfig;
