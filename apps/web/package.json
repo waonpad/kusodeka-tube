@@ -7,9 +7,9 @@
     "build": "next build",
     "start": "next start -p 8080",
     "lint": "eslint --ext .ts,.js,.tsx . --fix",
-    "test": "echo 'The test configurations have not been set up yet.'",
-    "test:watch": "echo 'The test configurations have not been set up yet.'",
-    "test:ci": "echo 'The test configurations have not been set up yet.'"
+    "test": "vitest run --silent",
+    "test:watch": "vitest watch --silent",
+    "test:ci": "vitest run --silent"
   },
   "dependencies": {
     "@geolonia/japanese-numeral": "^1.0.2",
@@ -20,6 +20,7 @@
     "postcss": "8.4.25",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "server-only": "^0.0.1",
     "tailwind-config": "*",
     "tailwindcss": "3.3.2",
     "typescript": "5.1.6",
@@ -28,12 +29,18 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.1.4",
+    "@testing-library/react": "^14.1.2",
+    "@testing-library/user-event": "^14.5.1",
     "@types/node": "20.4.1",
     "@types/react": "18.2.15",
     "@types/react-dom": "18.2.7",
+    "@vitejs/plugin-react": "^4.2.0",
     "autoprefixer": "10.4.14",
     "eslint": "8.44.0",
     "eslint-config-custom": "*",
-    "tsconfig": "*"
+    "happy-dom": "^12.10.3",
+    "tsconfig": "*",
+    "vitest": "^0.34.6"
   }
 }
