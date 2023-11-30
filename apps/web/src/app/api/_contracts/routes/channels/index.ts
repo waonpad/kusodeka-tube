@@ -11,11 +11,42 @@ export const getChannelByURLContract = {
       url: z.string().startsWith('https://www.youtube.com/'),
     })
     .merge(KusodekaQuerySchema),
-  // TODO: 後でスキーマを書く
-  // 外部APIのような巨大なレスポンスもやらないといけないのは面倒だな・・・
   response: z
     .object({
-      channel: z.any(),
+      channel: z.object({
+        kind: z.string(),
+        etag: z.string(),
+        id: z.string(),
+        snippet: z.object({
+          title: z.string(),
+          description: z.string(),
+          customUrl: z.string(),
+          publishedAt: z.string(),
+          thumbnails: z.object({
+            default: z.object({
+              url: z.string().url(),
+              width: z.number(),
+              height: z.number(),
+            }),
+          }),
+        }),
+        statistics: z.object({
+          viewCount: z.string(),
+          subscriberCount: z.string(),
+          hiddenSubscriberCount: z.boolean(),
+          videoCount: z.string(),
+        }),
+        brandingSettings: z.object({
+          channel: z.object({
+            keywords: z.string().optional(),
+          }),
+          image: z
+            .object({
+              bannerExternalUrl: z.string().url().optional(),
+            })
+            .optional(),
+        }),
+      }),
     })
     .merge(KusodekaResponseSchema),
 } as const satisfies ApiContract;

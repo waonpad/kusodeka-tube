@@ -18,11 +18,37 @@ export const getVideoByURLContract = {
       url: z.string().startsWith('https://www.youtube.com/watch?v='),
     })
     .merge(KusodekaQuerySchema),
-  // TODO: 後でスキーマを書く
-  // 外部APIのような巨大なレスポンスもやらないといけないのは面倒だな・・・
   response: z
     .object({
-      video: z.any(),
+      video: z.object({
+        kind: z.string(),
+        etag: z.string(),
+        id: z.string(),
+        snippet: z.object({
+          title: z.string(),
+          channelId: z.string(),
+          description: z.string(),
+          publishedAt: z.string(),
+          thumbnails: z.object({
+            default: z.object({
+              url: z.string().url(),
+              width: z.number(),
+              height: z.number(),
+            }),
+          }),
+          channelTitle: z.string(),
+          tags: z.array(z.string()),
+        }),
+        contentDetails: z.object({
+          duration: z.string(),
+        }),
+        statistics: z.object({
+          viewCount: z.string(),
+          likeCount: z.string(),
+          favoriteCount: z.string(),
+          commentCount: z.string(),
+        }),
+      }),
     })
     .merge(KusodekaResponseSchema),
 } as const satisfies ApiContract;

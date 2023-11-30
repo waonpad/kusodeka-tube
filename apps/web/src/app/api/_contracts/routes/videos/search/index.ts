@@ -19,11 +19,42 @@ export const searchVideosContract = {
       pageToken: z.string().optional(),
     })
     .merge(KusodekaQuerySchema),
-  // TODO: 後でスキーマを書く
-  // 外部APIのような巨大なレスポンスもやらないといけないのは面倒だな・・・
   response: z
     .object({
-      videos: z.any(),
+      meta: z.object({
+        kind: z.string(),
+        etag: z.string(),
+        nextPageToken: z.string().optional(),
+        regionCode: z.string(),
+        pageInfo: z.object({
+          totalResults: z.number(),
+          resultsPerPage: z.number(),
+        }),
+      }),
+      videos: z.array(
+        z.object({
+          kind: z.string(),
+          etag: z.string(),
+          id: z.object({
+            kind: z.string(),
+            videoId: z.string(),
+          }),
+          snippet: z.object({
+            publishedAt: z.string(),
+            channelId: z.string(),
+            title: z.string(),
+            description: z.string(),
+            thumbnails: z.object({
+              default: z.object({
+                url: z.string().url(),
+                width: z.number(),
+                height: z.number(),
+              }),
+            }),
+            channelTitle: z.string(),
+          }),
+        })
+      ),
     })
     .merge(KusodekaResponseSchema),
 } as const satisfies ApiContract;
