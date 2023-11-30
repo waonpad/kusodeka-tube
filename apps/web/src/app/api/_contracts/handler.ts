@@ -70,14 +70,12 @@ export const cHandler = <T extends ApiContract>(
     const response = await process(req, parsed);
     const responseBody = await response.json();
 
-    if (contract.response) {
-      const parsedResponse = contract.response.safeParse(responseBody);
+    const parsedResponseBody = contract.response.safeParse(responseBody);
 
-      if (!parsedResponse.success) {
-        return NextResponse.json({ error: parsedResponse.error }, { status: 500 });
-      }
+    if (!parsedResponseBody.success) {
+      return NextResponse.json({ error: parsedResponseBody.error }, { status: 500 });
     }
 
-    return NextResponse.json(responseBody, response);
+    return NextResponse.json(parsedResponseBody.data, response);
   };
 };
