@@ -4,7 +4,7 @@ import { KusodekaQuerySchema, KusodekaResponseSchema } from '../../../shared';
 import { ApiContract } from '../../../types';
 
 export const searchVideosContract = {
-  path: () => hostApi('/videos/search'),
+  path: () => hostApi('videos/search'),
   method: 'GET',
   /**
    * @see https://github.com/Tenpi/youtube.ts/blob/master/types/SearchTypes.ts#L3
@@ -14,6 +14,7 @@ export const searchVideosContract = {
    */
   query: z
     .object({
+      // TODO: 正確には、qかpageTokenのどちらかは必須
       q: z.string().optional(),
       maxResults: z.number().max(50).default(10),
       pageToken: z.string().optional(),

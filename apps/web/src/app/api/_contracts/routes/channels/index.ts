@@ -4,7 +4,7 @@ import { KusodekaQuerySchema, KusodekaResponseSchema } from '../../shared';
 import { ApiContract } from '../../types';
 
 export const getChannelByURLContract = {
-  path: () => hostApi('/channels'),
+  path: () => hostApi('channels'),
   method: 'GET',
   query: z
     .object({
