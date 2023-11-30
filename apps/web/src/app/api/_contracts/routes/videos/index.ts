@@ -11,7 +11,7 @@ export const additionalVideoPart = [
 ] satisfies AdditionalVideoPart[];
 
 export const getVideoByURLContract = {
-  path: () => hostApi('/videos'),
+  path: () => hostApi('videos'),
   method: 'GET',
   query: z
     .object({
