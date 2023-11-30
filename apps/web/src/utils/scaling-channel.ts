@@ -25,7 +25,9 @@ export const scalingChannel = <T extends Partial<YoutubeChannel>>(channel: T, sc
         ...channel.brandingSettings,
         channel: {
           ...channel.brandingSettings.channel,
-          keywords: scalingNumeralsInText(channel.brandingSettings.channel.keywords ?? '', scale),
+          ...(channel.brandingSettings.channel.keywords && {
+            keywords: scalingNumeralsInText(channel.brandingSettings.channel.keywords, scale),
+          }),
         },
       },
     }),
