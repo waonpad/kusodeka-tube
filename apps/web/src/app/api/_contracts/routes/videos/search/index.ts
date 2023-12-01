@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { hostApi } from '@/config/url/host-api';
-import { KusodekaQuerySchema, KusodekaResponseSchema } from '../../../shared';
+import { KusodekaSearchParamsSchema, KusodekaResponseSchema } from '../../../shared';
 import { ApiContract } from '../../../types';
 
 export const searchVideosContract = {
@@ -12,14 +12,14 @@ export const searchVideosContract = {
    * This schema ensures only the necessary elements from the above link types \
    * If you edit this schema, please make sure to meet the above link types
    */
-  query: z
+  searchParams: z
     .object({
       // TODO: 正確には、qかpageTokenのどちらかは必須
       q: z.string().optional(),
       maxResults: z.number().max(50).default(10),
       pageToken: z.string().optional(),
     })
-    .merge(KusodekaQuerySchema),
+    .merge(KusodekaSearchParamsSchema),
   response: z
     .object({
       meta: z.object({

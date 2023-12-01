@@ -13,12 +13,12 @@ export const metadata: Metadata = {
 export default async function Page({
   searchParams,
 }: {
-  searchParams: { [K in keyof typeof getVideoByURLContract.query._input]?: string };
+  searchParams: { [K in keyof typeof getVideoByURLContract.searchParams._input]?: string };
 }) {
   const res = await cFetcher(getVideoByURLContract)(undefined, {
     // NOTICE: このままだとパースエラーがそのまま露出するのでどうするか考える
     // パラメータがなければトップにリダイレクト？
-    query: getVideoByURLContract.query.parse(searchParams),
+    searchParams: getVideoByURLContract.searchParams.parse(searchParams),
   });
 
   console.log('video', res.data?.video);

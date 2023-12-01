@@ -1,16 +1,16 @@
 import { z } from 'zod';
 import { hostApi } from '@/config/url/host-api';
-import { KusodekaQuerySchema, KusodekaResponseSchema } from '../../shared';
+import { KusodekaResponseSchema, KusodekaSearchParamsSchema } from '../../shared';
 import { ApiContract } from '../../types';
 
 export const getChannelByURLContract = {
   path: () => hostApi('channels'),
   method: 'GET',
-  query: z
+  searchParams: z
     .object({
       url: z.string().startsWith('https://www.youtube.com/'),
     })
-    .merge(KusodekaQuerySchema),
+    .merge(KusodekaSearchParamsSchema),
   response: z
     .object({
       channel: z.object({

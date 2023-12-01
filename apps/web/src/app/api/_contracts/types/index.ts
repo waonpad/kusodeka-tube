@@ -6,7 +6,7 @@ export type ApiContract = {
   path: (params: any) => string;
   method: HTTP_METHOD;
   params?: z.ZodType;
-  query?: z.ZodType;
+  searchParams?: z.ZodType;
   body?: z.ZodType;
   response: z.ZodType;
 };
