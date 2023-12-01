@@ -27,55 +27,59 @@ export const cHandler = <T extends ApiContract>(
       | z.infer<T['response']>
     >
   > => {
-    const parsed: {
-      params?: z.infer<NonNullable<T['params']>>;
-      searchParams?: z.infer<NonNullable<T['searchParams']>>;
-      body?: z.infer<NonNullable<T['body']>>;
-    } = {
-      params: undefined,
-      searchParams: undefined,
-      body: undefined,
-    };
+    try {
+      const parsed: {
+        params?: z.infer<NonNullable<T['params']>>;
+        searchParams?: z.infer<NonNullable<T['searchParams']>>;
+        body?: z.infer<NonNullable<T['body']>>;
+      } = {
+        params: undefined,
+        searchParams: undefined,
+        body: undefined,
+      };
 
-    if (contract.params) {
-      const parsedParams = contract.params.safeParse(params);
+      if (contract.params) {
+        const parsedParams = contract.params.safeParse(params);
 
-      if (!parsedParams.success) {
-        return NextResponse.json({ error: parsedParams.error }, { status: 400 });
+        if (!parsedParams.success) {
+          return NextResponse.json({ error: parsedParams.error }, { status: 400 });
+        }
+
+        parsed.params = parsedParams.data;
       }
 
-      parsed.params = parsedParams.data;
-    }
+      if (contract.searchParams) {
+        const parsedSearchParams = contract.searchParams.safeParse(reqSearchParams(req));
 
-    if (contract.searchParams) {
-      const parsedSearchParams = contract.searchParams.safeParse(reqSearchParams(req));
+        if (!parsedSearchParams.success) {
+          return NextResponse.json({ error: parsedSearchParams.error }, { status: 400 });
+        }
 
-      if (!parsedSearchParams.success) {
-        return NextResponse.json({ error: parsedSearchParams.error }, { status: 400 });
+        parsed.searchParams = parsedSearchParams.data;
       }
 
-      parsed.searchParams = parsedSearchParams.data;
-    }
+      if (contract.body) {
+        const parsedBody = contract.body.safeParse(req.body);
 
-    if (contract.body) {
-      const parsedBody = contract.body.safeParse(req.body);
+        if (!parsedBody.success) {
+          return NextResponse.json({ error: parsedBody.error }, { status: 422 });
+        }
 
-      if (!parsedBody.success) {
-        return NextResponse.json({ error: parsedBody.error }, { status: 422 });
+        parsed.body = parsedBody.data;
       }
 
-      parsed.body = parsedBody.data;
+      const response = await process(req, parsed);
+      const responseBody = await response.json();
+
+      const parsedResponseBody = contract.response.safeParse(responseBody);
+
+      if (!parsedResponseBody.success) {
+        return NextResponse.json({ error: parsedResponseBody.error }, { status: 500 });
+      }
+
+      return NextResponse.json(parsedResponseBody.data, response);
+    } catch (error) {
+      return NextResponse.json({ error: { message: 'Internal Server Error' } }, { status: 500 });
     }
-
-    const response = await process(req, parsed);
-    const responseBody = await response.json();
-
-    const parsedResponseBody = contract.response.safeParse(responseBody);
-
-    if (!parsedResponseBody.success) {
-      return NextResponse.json({ error: parsedResponseBody.error }, { status: 500 });
-    }
-
-    return NextResponse.json(parsedResponseBody.data, response);
   };
 };
