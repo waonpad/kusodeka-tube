@@ -13,12 +13,12 @@ export const metadata: Metadata = {
 export default async function Page({
   searchParams,
 }: {
-  searchParams: { [K in keyof typeof getChannelByURLContract.query._input]?: string };
+  searchParams: { [K in keyof typeof getChannelByURLContract.searchParams._input]?: string };
 }) {
   const res = await cFetcher(getChannelByURLContract)(undefined, {
     // NOTICE: このままだとパースエラーがそのまま露出するのでどうするか考える
     // パラメータがなければトップにリダイレクト？
-    query: getChannelByURLContract.query.parse(searchParams),
+    searchParams: getChannelByURLContract.searchParams.parse(searchParams),
   });
 
   console.log('channel', res.data?.channel);

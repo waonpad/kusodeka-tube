@@ -4,13 +4,13 @@ import { scalingVideo } from '@/utils/scaling-video';
 import { cHandler } from '../_contracts/handler';
 import { additionalVideoPart, getVideoByURLContract } from '../_contracts/routes/videos';
 
-export const GET = cHandler(getVideoByURLContract, async (req, { query }) => {
+export const GET = cHandler(getVideoByURLContract, async (req, { searchParams }) => {
   const video: Pick<YoutubeVideo, DefaultVideoPart | (typeof additionalVideoPart)[number]> =
-    await youtubeApi.videos.get(query!.url, {
+    await youtubeApi.videos.get(searchParams!.url, {
       part: additionalVideoPart,
     });
 
-  const scaledVideo = scalingVideo(video, query!.scale);
+  const scaledVideo = scalingVideo(video, searchParams!.scale);
 
   console.log(scaledVideo);
 

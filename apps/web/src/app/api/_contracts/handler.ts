@@ -11,7 +11,7 @@ export const cHandler = <T extends ApiContract>(
     req: NextRequest,
     parsed: {
       params?: z.infer<NonNullable<T['params']>>;
-      query?: z.infer<NonNullable<T['query']>>;
+      searchParams?: z.infer<NonNullable<T['searchParams']>>;
       body?: z.infer<NonNullable<T['body']>>;
     }
   ) => Promise<NextResponse<z.infer<T['response']>>>
@@ -29,11 +29,11 @@ export const cHandler = <T extends ApiContract>(
   > => {
     const parsed: {
       params?: z.infer<NonNullable<T['params']>>;
-      query?: z.infer<NonNullable<T['query']>>;
+      searchParams?: z.infer<NonNullable<T['searchParams']>>;
       body?: z.infer<NonNullable<T['body']>>;
     } = {
       params: undefined,
-      query: undefined,
+      searchParams: undefined,
       body: undefined,
     };
 
@@ -47,14 +47,14 @@ export const cHandler = <T extends ApiContract>(
       parsed.params = parsedParams.data;
     }
 
-    if (contract.query) {
-      const parsedQuery = contract.query.safeParse(reqSearchParams(req));
+    if (contract.searchParams) {
+      const parsedSearchParams = contract.searchParams.safeParse(reqSearchParams(req));
 
-      if (!parsedQuery.success) {
-        return NextResponse.json({ error: parsedQuery.error }, { status: 400 });
+      if (!parsedSearchParams.success) {
+        return NextResponse.json({ error: parsedSearchParams.error }, { status: 400 });
       }
 
-      parsed.query = parsedQuery.data;
+      parsed.searchParams = parsedSearchParams.data;
     }
 
     if (contract.body) {

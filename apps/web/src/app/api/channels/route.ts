@@ -4,10 +4,10 @@ import { scalingChannel } from '@/utils/scaling-channel';
 import { cHandler } from '../_contracts/handler';
 import { getChannelByURLContract } from '../_contracts/routes/channels';
 
-export const GET = cHandler(getChannelByURLContract, async (req, { query }) => {
-  const channel = await youtubeApi.channels.get(query!.url);
+export const GET = cHandler(getChannelByURLContract, async (req, { searchParams }) => {
+  const channel = await youtubeApi.channels.get(searchParams!.url);
 
-  const scaledChannel = scalingChannel(channel, query!.scale);
+  const scaledChannel = scalingChannel(channel, searchParams!.scale);
 
   console.log(scaledChannel);
 

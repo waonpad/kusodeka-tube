@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { hostApi } from '@/config/url/host-api';
 import { AdditionalVideoPart } from '@/lib/youtube-ts';
-import { KusodekaQuerySchema, KusodekaResponseSchema } from '../../shared';
+import { KusodekaResponseSchema, KusodekaSearchParamsSchema } from '../../shared';
 import { ApiContract } from '../../types';
 
 export const additionalVideoPart = [
@@ -13,11 +13,11 @@ export const additionalVideoPart = [
 export const getVideoByURLContract = {
   path: () => hostApi('videos'),
   method: 'GET',
-  query: z
+  searchParams: z
     .object({
       url: z.string().startsWith('https://www.youtube.com/watch?v='),
     })
-    .merge(KusodekaQuerySchema),
+    .merge(KusodekaSearchParamsSchema),
   response: z
     .object({
       video: z.object({
