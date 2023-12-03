@@ -1,3 +1,8 @@
+const path = require('path');
+const plugin = require('tailwindcss/plugin');
+
+const { iconsPlugin, getIconCollections } = require('@egoist/tailwindcss-icons');
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ['class'],
@@ -6,6 +11,7 @@ module.exports = {
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
+    path.join(path.dirname(require.resolve('ui/components')), '**/*.{ts,tsx}'),
   ],
   theme: {
     container: {
@@ -72,5 +78,15 @@ module.exports = {
       },
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [
+    require('tailwindcss-animate'),
+    iconsPlugin({
+      // https://icones.js.org/
+      collections: getIconCollections(['mdi']),
+    }),
+    // https://github.com/tailwindlabs/tailwindcss/discussions/10590
+    plugin(function ({ addVariant }) {
+      addVariant('disabled-within', `&:has(input:is(:disabled),button:is(:disabled))`);
+    }),
+  ],
 };

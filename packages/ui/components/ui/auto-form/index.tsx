@@ -1,22 +1,21 @@
 import React from 'react';
-
 import { zodResolver } from '@hookform/resolvers/zod';
-import { DefaultValues, useForm } from 'react-hook-form';
+import type { DefaultValues } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
+import type { z } from 'zod';
 import { cn } from 'ui/lib/utils';
-import { z } from 'zod';
-
 import { Button } from '../button';
 import { Form } from '../form';
-
 import AutoFormObject from './fields/object';
-import { FieldConfig } from './types';
-import { ZodObjectOrWrapped, getDefaultValues, getObjectFormSchema } from './utils';
+import type { FieldConfig } from './types';
+import type { ZodObjectOrWrapped } from './utils';
+import { getDefaultValues, getObjectFormSchema } from './utils';
 
-export function AutoFormSubmit({ children }: { children?: React.ReactNode }) {
+export function AutoFormSubmit({ children }: { children?: React.ReactNode }): JSX.Element {
   return <Button type="submit">{children ?? 'Submit'}</Button>;
 }
 
-function AutoForm<SchemaType extends ZodObjectOrWrapped>({
+export function AutoForm<SchemaType extends ZodObjectOrWrapped>({
   formSchema,
   values: valuesProp,
   onValuesChange: onValuesChangeProp,
@@ -34,7 +33,7 @@ function AutoForm<SchemaType extends ZodObjectOrWrapped>({
   fieldConfig?: FieldConfig<z.infer<SchemaType>>;
   children?: React.ReactNode;
   className?: string;
-}) {
+}): JSX.Element {
   const objectFormSchema = getObjectFormSchema(formSchema);
   const defaultValues: DefaultValues<z.infer<typeof objectFormSchema>> =
     getDefaultValues(objectFormSchema);
@@ -45,7 +44,7 @@ function AutoForm<SchemaType extends ZodObjectOrWrapped>({
     values: valuesProp,
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values: z.infer<typeof formSchema>): void {
     const parsedValues = formSchema.safeParse(values);
     if (parsedValues.success) {
       onSubmitProp?.(parsedValues.data);
@@ -55,9 +54,7 @@ function AutoForm<SchemaType extends ZodObjectOrWrapped>({
   return (
     <Form {...form}>
       <form
-        onSubmit={(e) => {
-          form.handleSubmit(onSubmit)(e);
-        }}
+        className={cn('space-y-5', className)}
         onChange={() => {
           const values = form.getValues();
           onValuesChangeProp?.(values);
@@ -66,14 +63,14 @@ function AutoForm<SchemaType extends ZodObjectOrWrapped>({
             onParsedValuesChange?.(parsedValues.data);
           }
         }}
-        className={cn('space-y-5', className)}
+        onSubmit={(e) => {
+          void form.handleSubmit(onSubmit)(e);
+        }}
       >
-        <AutoFormObject schema={objectFormSchema} form={form} fieldConfig={fieldConfig} />
+        <AutoFormObject fieldConfig={fieldConfig} form={form} schema={objectFormSchema} />
 
         {children}
       </form>
     </Form>
   );
 }
-
-export default AutoForm;

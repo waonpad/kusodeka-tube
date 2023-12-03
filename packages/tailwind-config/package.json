@@ -3,7 +3,9 @@
   "license": "MIT",
   "version": "0.0.0",
   "private": true,
-  "dependencies": {
+  "devDependencies": {
+    "@egoist/tailwindcss-icons": "^1.4.0",
+    "@iconify/json": "^2.2.150",
     "tailwindcss-animate": "^1.0.7"
   }
 }

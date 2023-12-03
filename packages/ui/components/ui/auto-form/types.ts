@@ -1,10 +1,11 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { ControllerRenderProps, FieldValues } from 'react-hook-form';
-import * as z from 'zod';
+/* eslint-disable @typescript-eslint/no-explicit-any -- - */
+import type { ControllerRenderProps, FieldValues } from 'react-hook-form';
+import type * as z from 'zod';
+import type { InputWithAdornmentProps } from '../input-with-adornment';
+import type { SelectWithAdornmentProps } from '../select-with-adornment';
+import type { INPUT_COMPONENTS } from './config';
 
-import { INPUT_COMPONENTS } from './config';
-
-export type FieldConfigItem = {
+export interface FieldConfigItem {
   description?: React.ReactNode;
   inputProps?: React.InputHTMLAttributes<HTMLInputElement> & {
     showLabel?: boolean;
@@ -12,7 +13,15 @@ export type FieldConfigItem = {
   fieldType?: keyof typeof INPUT_COMPONENTS | React.FC<AutoFormInputComponentProps>;
 
   renderParent?: (props: { children: React.ReactNode }) => React.ReactElement | null;
-};
+
+  /**
+   * 追加した by waonpad
+   * とりあえず動いた
+   */
+  withAdornment?:
+    | Omit<InputWithAdornmentProps, 'children'>
+    | Omit<SelectWithAdornmentProps, 'children'>;
+}
 
 export type FieldConfig<SchemaType extends z.infer<z.ZodObject<any, any>>> = {
   // If SchemaType.key is an object, create a nested FieldConfig, otherwise FieldConfigItem
@@ -24,7 +33,7 @@ export type FieldConfig<SchemaType extends z.infer<z.ZodObject<any, any>>> = {
 /**
  * A FormInput component can handle a specific Zod type (e.g. "ZodBoolean")
  */
-export type AutoFormInputComponentProps = {
+export interface AutoFormInputComponentProps {
   zodInputProps: React.InputHTMLAttributes<HTMLInputElement>;
   field: ControllerRenderProps<FieldValues, any>;
   fieldConfigItem: FieldConfigItem;
@@ -32,4 +41,4 @@ export type AutoFormInputComponentProps = {
   isRequired: boolean;
   fieldProps: any;
   zodItem: z.ZodAny;
-};
+}

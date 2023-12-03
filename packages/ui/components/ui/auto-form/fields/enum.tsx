@@ -1,10 +1,13 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import * as z from 'zod';
-
+/* eslint-disable import/no-default-export -- - */
+/* eslint-disable @typescript-eslint/no-unsafe-argument -- - */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment -- - */
+/* eslint-disable @typescript-eslint/no-explicit-any -- - */
+import type * as z from 'zod';
 import { FormControl, FormDescription, FormItem, FormLabel, FormMessage } from '../../form';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../select';
-import { AutoFormInputComponentProps } from '../types';
+import { Select, SelectContent, SelectItem, SelectValue } from '../../select';
+import type { AutoFormInputComponentProps } from '../types';
 import { getBaseSchema } from '../utils';
+import { SelectWithAdornment } from '../../select-with-adornment';
 
 export default function AutoFormEnum({
   label,
@@ -12,7 +15,7 @@ export default function AutoFormEnum({
   field,
   fieldConfigItem,
   zodItem,
-}: AutoFormInputComponentProps) {
+}: AutoFormInputComponentProps): JSX.Element {
   const baseValues = (getBaseSchema(zodItem) as unknown as z.ZodEnum<any>)._def.values;
 
   let values: [string, string][] = [];
@@ -22,7 +25,7 @@ export default function AutoFormEnum({
     values = baseValues.map((value) => [value, value]);
   }
 
-  function findItem(value: any) {
+  function findItem(value: any): [string, string] | undefined {
     return values.find((item) => item[0] === value);
   }
 
@@ -30,27 +33,33 @@ export default function AutoFormEnum({
     <FormItem>
       <FormLabel>
         {label}
-        {isRequired && <span className="text-destructive"> *</span>}
+        {isRequired ? <span className="text-destructive"> *</span> : null}
       </FormLabel>
       <FormControl>
-        <Select onValueChange={field.onChange} defaultValue={field.value}>
-          <SelectTrigger>
+        <Select defaultValue={field.value} onValueChange={field.onChange}>
+          {fieldConfigItem.withAdornment !== undefined ? (
+            <SelectWithAdornment {...fieldConfigItem.withAdornment}>
+              <SelectValue className="w-full" placeholder={fieldConfigItem.inputProps?.placeholder}>
+                {field.value ? findItem(field.value)?.[1] : 'Select an option'}
+              </SelectValue>
+            </SelectWithAdornment>
+          ) : (
             <SelectValue className="w-full" placeholder={fieldConfigItem.inputProps?.placeholder}>
               {field.value ? findItem(field.value)?.[1] : 'Select an option'}
             </SelectValue>
-          </SelectTrigger>
+          )}
           <SelectContent>
-            {values.map(([value, label]) => (
-              <SelectItem value={label} key={value}>
-                {label}
+            {values.map(([value, valueLabel]) => (
+              <SelectItem key={value} value={valueLabel}>
+                {valueLabel}
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
       </FormControl>
-      {fieldConfigItem.description && (
+      {fieldConfigItem.description ? (
         <FormDescription>{fieldConfigItem.description}</FormDescription>
-      )}
+      ) : null}
       <FormMessage />
     </FormItem>
   );
