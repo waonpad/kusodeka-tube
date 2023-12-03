@@ -3,6 +3,8 @@ import { hostApi } from '@/config/url/host-api';
 import { KusodekaSearchParamsSchema, KusodekaResponseSchema } from '../../../shared';
 import { ApiContract } from '../../../types';
 
+const SPECIFY_EITHER_Q_OR_PAGE_TOKEN = 'Specify either q or pageToken';
+
 export const searchVideosContract = {
   path: () => hostApi('videos/search'),
   method: 'GET',
@@ -14,12 +16,47 @@ export const searchVideosContract = {
    */
   searchParams: z
     .object({
-      // TODO: 正確には、qかpageTokenのどちらかは必須
       q: z.string().optional(),
       maxResults: z.number().max(50).default(10),
       pageToken: z.string().optional(),
     })
-    .merge(KusodekaSearchParamsSchema),
+    .merge(KusodekaSearchParamsSchema)
+    .superRefine((values, ctx) => {
+      /**
+       * refineを使った場合のshape方法
+       * @see https://github.com/colinhacks/zod/issues/2056
+       */
+
+      // qとpageTokenの両方が指定されている場合はエラー
+      if (!!values.q && !!values.pageToken) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: SPECIFY_EITHER_Q_OR_PAGE_TOKEN,
+          path: ['q'],
+        });
+
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: SPECIFY_EITHER_Q_OR_PAGE_TOKEN,
+          path: ['pageToken'],
+        });
+      }
+
+      // qとpageTokenのどちらも指定されていない場合はエラー
+      if (!values.q && !values.pageToken) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: SPECIFY_EITHER_Q_OR_PAGE_TOKEN,
+          path: ['q'],
+        });
+
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: SPECIFY_EITHER_Q_OR_PAGE_TOKEN,
+          path: ['pageToken'],
+        });
+      }
+    }),
   response: z
     .object({
       meta: z.object({
