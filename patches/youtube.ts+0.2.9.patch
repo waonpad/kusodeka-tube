@@ -1,0 +1,14 @@
+diff --git a/node_modules/youtube.ts/dist/API.js b/node_modules/youtube.ts/dist/API.js
+index 758c091..d3d181b 100644
+--- a/node_modules/youtube.ts/dist/API.js
++++ b/node_modules/youtube.ts/dist/API.js
+@@ -40,7 +40,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
+ };
+ exports.__esModule = true;
+ var axios_1 = __importDefault(require("axios"));
+-var apiURL = "https://www.googleapis.com/youtube/v3/";
++var apiURL = process.env.YOUTUBE_DATA_API_MOCKING === 'true' ? process.env.MOCK_YOUTUBE_DATA_API_BASE_URL : "https://www.googleapis.com/youtube/v3/";
++
+ var API = /** @class */ (function () {
+     function API(apiKey) {
+         var _this = this;

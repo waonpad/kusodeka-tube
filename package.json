@@ -16,7 +16,8 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "test": "nps test",
-    "prepare": "echo Please husky install"
+    "prepare": "echo Please husky install",
+    "postinstall": "patch-package"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.7.2",
@@ -24,6 +25,8 @@
     "dotenv": "^16.3.1",
     "husky": "^8.0.0",
     "lint-staged": "^14.0.1",
+    "patch-package": "^8.0.0",
+    "postinstall-postinstall": "^2.1.0",
     "prettier": "^3.0.3",
     "stylelint": "^15.10.3",
     "stylelint-config": "*",
