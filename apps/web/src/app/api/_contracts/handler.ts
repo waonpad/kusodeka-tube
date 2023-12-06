@@ -79,6 +79,8 @@ export const cHandler = <T extends ApiContract>(
 
       return NextResponse.json(parsedResponseBody.data, response);
     } catch (error) {
+      console.error(error);
+
       return NextResponse.json({ error: { message: 'Internal Server Error' } }, { status: 500 });
     }
   };
