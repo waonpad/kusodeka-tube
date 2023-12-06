@@ -24,6 +24,8 @@ export const describeZodSchema = <T extends ZodObject<any>>(
 
     if (description) {
       newShape[key] = shape[key].describe(description);
+    } else {
+      newShape[key] = shape[key];
     }
   }
 
