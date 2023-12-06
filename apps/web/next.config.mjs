@@ -13,6 +13,10 @@ const nextConfig = async (phase, { defaultConfig }) => ({
         port: '',
         pathname: '/random',
       },
+      {
+        protocol: 'https',
+        hostname: 'img.youtube.com',
+      },
     ],
   },
   typescript: {
