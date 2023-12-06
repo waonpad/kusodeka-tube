@@ -17,7 +17,7 @@ export const searchVideosContract = {
   searchParams: z
     .object({
       q: z.string().optional(),
-      maxResults: z.number().max(50).default(10),
+      maxResults: z.coerce.number().max(50).default(10),
       pageToken: z.string().optional(),
     })
     .merge(KusodekaSearchParamsSchema)

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { stringify } from 'qs';
 import {
   Select,
   SelectValue,
@@ -28,7 +29,6 @@ const headerSearchForms = {
 } as const;
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const router = useRouter();
 
   const [displayForm, setDisplayForm] = useState<(typeof headerSearchForms.forms)[number]>(
@@ -42,19 +42,19 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const handleSubmitGetChannelByURL = (values: z.infer<typeof getChannelByURLFormSchema>) => {
     console.log(values);
 
-    // router.push(`/channels?${stringify(values)}`);
+    router.push(`/channels?${stringify(values)}`);
   };
 
   const handleSubmitGetVideoByURL = (values: z.infer<typeof getVideoByURLFormSchema>) => {
     console.log(values);
 
-    // router.push(`/videos?${stringify(values)}`);
+    router.push(`/videos?${stringify(values)}`);
   };
 
   const handleSubmitSearchVideos = (values: z.infer<typeof searchVideosFormSchema>) => {
     console.log(values);
 
-    // router.push(`/videos/search?${stringify(values)}`);
+    router.push(`/videos/search?${stringify(values)}`);
   };
 
   return (
