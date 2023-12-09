@@ -6,29 +6,37 @@ import { cn } from 'ui/lib/utils';
 import { youtubeLink } from '@/utils/youtube-link';
 import { youtubeVideoThumbnailLink } from '@/utils/youtube-video-thumbnail-link';
 
-export type YouTubeVideoThumbnailProps = React.HTMLAttributes<HTMLDivElement> & {
+export type YoutubeVideoRenderProps = React.HTMLAttributes<HTMLDivElement> & {
   videoId: string;
   thumbnailProps?: typeof Image.defaultProps;
   iframeProps?: React.IframeHTMLAttributes<HTMLIFrameElement>;
+  onClickThumbnail?: () => void;
+  onLoadIframe?: () => void;
 };
 
-export default function YouTubeVideoRender({
+export default function YoutubeVideoRender({
   videoId,
   thumbnailProps,
   iframeProps,
+  onClickThumbnail,
+  onLoadIframe,
   ...props
-}: YouTubeVideoThumbnailProps) {
+}: YoutubeVideoRenderProps) {
   const [showIframe, setShowIframe] = useState(false);
 
   const [canLoadIframe, setCanLoadIframe] = useState(false);
 
   const handleClickThumbnail = () => {
     setCanLoadIframe(true);
+
+    onClickThumbnail && onClickThumbnail();
     // TODO: ロード中を示すUIが欲しい
   };
 
-  const handleLoadedIframe = () => {
+  const handleLoadIframe = () => {
     setShowIframe(true);
+
+    onLoadIframe && onLoadIframe();
   };
 
   return (
@@ -46,7 +54,7 @@ export default function YouTubeVideoRender({
             className={cn('object-cover rounded-xl', thumbnailProps?.className)}
           />
           <div
-            className="absolute left-0 top-0 h-full w-full rounded-xl bg-black/0 hover:bg-black/10"
+            className="absolute left-0 top-0 h-full w-full cursor-pointer rounded-xl bg-black/0 hover:bg-black/10"
             onClick={handleClickThumbnail}
           />
         </>
@@ -63,7 +71,7 @@ export default function YouTubeVideoRender({
           allowFullScreen
           {...iframeProps}
           src={youtubeLink.embed(videoId)}
-          onLoad={handleLoadedIframe}
+          onLoad={handleLoadIframe}
         />
       )}
     </div>
