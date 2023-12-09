@@ -28,6 +28,16 @@ export const getChannelByURLContract = {
               width: z.number(),
               height: z.number(),
             }),
+            medium: z.object({
+              url: z.string().url(),
+              width: z.number(),
+              height: z.number(),
+            }),
+            high: z.object({
+              url: z.string().url(),
+              width: z.number(),
+              height: z.number(),
+            }),
           }),
         }),
         statistics: z.object({
