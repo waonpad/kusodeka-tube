@@ -4,7 +4,7 @@ import { getVideoByURLContract } from '@/app/api/_contracts/routes/videos';
 import { YoutubeVideoRenderWithDuration } from '@/components/elements/youtube-video-render/with-duration';
 import { Linkify } from '@/lib/linkify';
 import { youtubeLink } from '@/utils/youtube-link';
-import { VideoStats } from './(components)/video-stats';
+import { VideoStats } from './_components/video-stats';
 
 export const metadata: Metadata = {
   alternates: {
@@ -36,7 +36,7 @@ export default async function Page({
   return (
     <div className="mx-auto max-w-5xl p-2">
       <div className="grid grid-cols-6 gap-2 md:gap-4">
-        <div className="col-span-6 space-y-2 md:col-span-4">
+        <div className="col-span-6 flex flex-col gap-2 md:col-span-4">
           {/* サムネと動画 */}
           <YoutubeVideoRenderWithDuration
             duration={video.contentDetails.duration}
@@ -46,9 +46,9 @@ export default async function Page({
             }}
           />
           {/* 中身 */}
-          <div className="space-y-2">
+          <div className="flex flex-col gap-2">
             {/* タイトル */}
-            <div className="space-y-1">
+            <div className="flex flex-col gap-1">
               <div className="text-lg font-bold">
                 <a href={youtubeLink.video(video.id)} target="_blank" rel="noopener noreferrer">
                   {video.snippet.title}
