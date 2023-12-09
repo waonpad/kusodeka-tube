@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { cFetcher } from '@/app/api/_contracts/fetcher';
 import { searchVideosContract } from '@/app/api/_contracts/routes/videos/search';
-import YouTubeVideoRender from '@/components/elements/youtube-video-render';
+import { YoutubeVideoRender } from '@/components/elements/youtube-video-render';
 import { youtubeLink } from '@/utils/youtube-link';
 
 export const metadata: Metadata = {
@@ -31,7 +31,7 @@ export default async function Page({
         {res.data?.videos.map((video, index) => (
           <div key={video.id.videoId} className="grid grid-cols-6 gap-2 md:gap-4">
             {/* サムネと動画 */}
-            <YouTubeVideoRender
+            <YoutubeVideoRender
               videoId={video.id.videoId}
               thumbnailProps={{ priority: index === 0 }}
               className="col-span-6 sm:col-span-2 md:col-span-3"
