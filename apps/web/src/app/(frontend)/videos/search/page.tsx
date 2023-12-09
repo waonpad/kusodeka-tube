@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { cFetcher } from '@/app/api/_contracts/fetcher';
 import { searchVideosContract } from '@/app/api/_contracts/routes/videos/search';
-import YoutubeVideoRender from '@/components/elements/youtube-video-render';
+import { YoutubeVideoRender } from '@/components/elements/youtube-video-render';
 import { youtubeLink } from '@/utils/youtube-link';
 
 export const metadata: Metadata = {

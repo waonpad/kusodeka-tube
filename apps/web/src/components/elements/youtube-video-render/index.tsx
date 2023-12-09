@@ -14,14 +14,14 @@ export type YoutubeVideoRenderProps = React.HTMLAttributes<HTMLDivElement> & {
   onLoadIframe?: () => void;
 };
 
-export default function YoutubeVideoRender({
+export const YoutubeVideoRender = ({
   videoId,
   thumbnailProps,
   iframeProps,
   onClickThumbnail,
   onLoadIframe,
   ...props
-}: YoutubeVideoRenderProps) {
+}: YoutubeVideoRenderProps) => {
   const [showIframe, setShowIframe] = useState(false);
 
   const [canLoadIframe, setCanLoadIframe] = useState(false);
@@ -76,4 +76,4 @@ export default function YoutubeVideoRender({
       )}
     </div>
   );
-}
+};
