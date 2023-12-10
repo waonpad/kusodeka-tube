@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { cFetcher } from '@/app/api/_contracts/fetcher';
 import { searchVideosContract } from '@/app/api/_contracts/routes/videos/search';
 import { YoutubeVideoRender } from '@/components/elements/youtube-video-render';
+import { formatScaledDateTime } from '@/utils/format/dayjs';
 import { youtubeLink } from '@/utils/youtube-link';
 
 export const metadata: Metadata = {
@@ -50,7 +51,7 @@ export default async function Page({
               </div>
               {/* 再生数も表示したいが検索だと取得できない */}
               {/* 投稿日時 */}
-              <div className="text-sm">{video.snippet.publishedAt}</div>
+              <div className="text-sm">{formatScaledDateTime(video.snippet.publishedAt)}</div>
               {/* チャンネルアイコンを表示したいが検索だと取得できない */}
               {/* チャンネル名 */}
               <div className="py-1 text-sm">

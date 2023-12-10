@@ -12,7 +12,9 @@ export const scalingVideos = <T extends Partial<YoutubeVideoSearch>>(
         ...video,
         snippet: {
           ...video.snippet,
-          publishedAt: scalingNumeralsInText(video.snippet.publishedAt, scale),
+          publishedAt:
+            (Math.sign(scale) === -1 ? '-' : '') +
+            scalingNumeralsInText(video.snippet.publishedAt, Math.abs(scale)),
           title: scalingNumeralsInText(video.snippet.title, scale),
           description: scalingNumeralsInText(video.snippet.description, scale),
           channelTitle: scalingNumeralsInText(video.snippet.channelTitle, scale),

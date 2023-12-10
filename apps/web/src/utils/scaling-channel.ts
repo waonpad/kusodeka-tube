@@ -7,7 +7,9 @@ export const scalingChannel = <T extends Partial<YoutubeChannel>>(channel: T, sc
     ...(channel.snippet && {
       snippet: {
         ...channel.snippet,
-        publishedAt: scalingNumeralsInText(channel.snippet.publishedAt, scale),
+        publishedAt:
+          (Math.sign(scale) === -1 ? '-' : '') +
+          scalingNumeralsInText(channel.snippet.publishedAt, Math.abs(scale)),
         title: scalingNumeralsInText(channel.snippet.title, scale),
         description: scalingNumeralsInText(channel.snippet.description, scale),
       },
