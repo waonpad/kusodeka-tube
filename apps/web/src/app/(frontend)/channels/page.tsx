@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { cFetcher } from '@/app/api/_contracts/fetcher';
 import { getChannelByURLContract } from '@/app/api/_contracts/routes/channels';
 import { Linkify } from '@/lib/linkify';
+import { formatScaledDateTime } from '@/utils/format/dayjs';
 import { youtubeLink } from '@/utils/youtube-link';
 
 export const metadata: Metadata = {
@@ -71,7 +72,7 @@ export default async function Page({
           </div>
           {/* 登録者数 */}
           <div className="flex items-center gap-1 text-sm">
-            <span className="i-mdi-account-group-outline h-4 w-4" />
+            <span className="i-mdi-account-group-outline h-4 w-4 shrink-0" />
             <div className="flex items-end gap-1">
               <span>{Number(channel.statistics.subscriberCount).toLocaleString()}</span>
               <span className="text-xs">subscribers</span>
@@ -79,7 +80,7 @@ export default async function Page({
           </div>
           {/* 動画数 */}
           <div className="flex items-center gap-1 text-sm">
-            <span className="i-mdi-video-outline h-4 w-4" />
+            <span className="i-mdi-video-outline h-4 w-4 shrink-0" />
             <div className="flex items-end gap-1">
               <span>{Number(channel.statistics.videoCount).toLocaleString()}</span>
               <span className="text-xs">videos</span>
@@ -87,7 +88,7 @@ export default async function Page({
           </div>
           {/* 総再生数 */}
           <div className="flex items-center gap-1 text-sm">
-            <span className="i-mdi-play-circle-outline h-4 w-4" />
+            <span className="i-mdi-play-circle-outline h-4 w-4 shrink-0" />
             <div className="flex items-end gap-1">
               <span>{Number(channel.statistics.viewCount).toLocaleString()}</span>
               <span className="text-xs">views</span>
@@ -95,9 +96,9 @@ export default async function Page({
           </div>
           {/* 登録日 */}
           <div className="flex items-center gap-1 text-sm">
-            <span className="i-mdi-calendar-check h-4 w-4" />
+            <span className="i-mdi-calendar-check h-4 w-4 shrink-0" />
             <div className="flex items-end gap-1">
-              <span>{channel.snippet.publishedAt}</span>
+              <span>{formatScaledDateTime(channel.snippet.publishedAt)}</span>
               <span className="text-xs">joined</span>
             </div>
           </div>

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-loss-of-precision */
-import { isoToSeconds, secondsToIso } from './dayjs';
+import { formatScaledDateTime, isoToSeconds, secondsToIso } from './dayjs';
 
 describe('isoToSeconds', () => {
   it('ISO 8601形式の期間を秒に変換する', () => {
@@ -47,5 +47,20 @@ describe('secondsToIso', () => {
   it('指数表記でしか表せない小さい数を渡すとP0Dを返す', () => {
     expect(secondsToIso(1e-8)).toBe('P0D');
     expect(secondsToIso(-1e-8)).toBe('P0D');
+  });
+});
+
+// TODO: secondsToHumanのテスト
+
+describe('formatScaledDateTime', () => {
+  it('scaledDateTimeをフォーマットする', () => {
+    expect(formatScaledDateTime('202300-800-1300T1100:0:1600Z')).toBe(
+      '202300/800/1300 1100:0:1600'
+    );
+  });
+  it('マイナスでscaleされたscaledDateTimeをフォーマットする', () => {
+    expect(formatScaledDateTime('-201100-800-1000T1700:1500:100Z')).toBe(
+      '-201100/800/1000 1700:1500:100'
+    );
   });
 });
