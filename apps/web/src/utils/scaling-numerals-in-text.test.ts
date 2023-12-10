@@ -5,7 +5,7 @@ describe('scalingNumeralsInText', () => {
     // このテストはsplitTextAndNumeralsのテストとしたほうがいいか
     expect(
       scalingNumeralsInText(
-        'いつか１００満点のお嬢様になりたい一般人ですわ。\n皆様方に１００満点の笑顔をお届けしたいですわ～～！\n',
+        'いつか１００満点のお嬢様になりたい一般人ですわ。\r\n皆様方に１００満点の笑顔をお届けしたいですわ～～！\n',
         2
       )
     ).toBe(

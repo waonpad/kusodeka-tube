@@ -3,7 +3,8 @@ import { splitTextAndNumbers } from './split-text-and-numbers';
 
 export const splitTextAndNumerals = (text: string) => {
   // 改行コードを一時的に別の文字列に置き換える
-  const replacedText = text.replace(/\n/g, ' NEWLINE ');
+  // ¥r¥n, ¥r, ¥n, ¥u2028, ¥u2029
+  const replacedText = text.replace(/\r\n|\r|\n|\u2028|\u2029/g, ' NEWLINE ');
 
   const findedKnajiNumbers = findKanjiNumbers(replacedText);
 
@@ -15,11 +16,11 @@ export const splitTextAndNumerals = (text: string) => {
       : [replacedText];
 
   const splitByArabicNumbers = splitByKanjiNumbers
-    .map((text) => {
-      if (findKanjiNumbers(text).length === 0) {
-        return splitTextAndNumbers(text);
+    .map((t) => {
+      if (findKanjiNumbers(t).length === 0) {
+        return splitTextAndNumbers(t);
       }
-      return text;
+      return t;
     })
     .flat();
 
