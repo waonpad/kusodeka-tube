@@ -99,7 +99,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         )}
       </div>
 
-      {children}
+      <main className="flex grow items-stretch">{children}</main>
     </>
   );
 }
