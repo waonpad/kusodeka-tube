@@ -39,6 +39,9 @@ const nextConfig = async (phase, { defaultConfig }) => ({
       return isDevServer ? [`dev.${extension}`, extension] : extension;
     })
     .flat(),
+  compiler: {
+    removeConsole: process.env.APP_ENV === "production"
+  },
 });
 
 export default nextConfig;
